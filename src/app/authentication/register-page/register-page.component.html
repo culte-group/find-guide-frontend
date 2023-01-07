@@ -1,0 +1,57 @@
+<form class="card" [formGroup]="form" (ngSubmit)="submit()">
+  <h2>Create password</h2>
+  <small>Use a minimum of 10 characters, including uppercase letters, lowercase letters and numbers.</small>
+
+  <div
+    [ngClass]="{invalid: isSubmitted && form!.get('password')!.invalid }"
+    class="form-control">
+    <label for="password">Password:</label>
+    <input id="password" type="password" formControlName="password">
+
+    <div *ngIf=" isSubmitted" class="validation">
+      <small *ngIf="form!.get('password')!.errors?.['len']; else upper">
+        The password must contain at least 10 characters.
+      </small>
+
+      <ng-template #upper>
+        <small *ngIf="form!.get('password')!.errors?.['upper']; else num">
+          The password must contain uppercase letter.
+        </small>
+      </ng-template>
+
+      <ng-template #num>
+        <small *ngIf="form!.get('password')!.errors?.['num']; else lower">
+          The password must contain number.
+        </small>
+      </ng-template>
+
+      <ng-template #lower>
+        <small *ngIf="form!.get('password')!.errors?.['lower']">
+          The password must contain lowercase letter.
+        </small>
+      </ng-template>
+    </div>
+  </div>
+
+  <div
+    [ngClass]="{invalid: isSubmitted && (form!.get('confirm')!.invalid || form.invalid)}"
+    class="form-control">
+    <label for="confirm">Confirm password:</label>
+    <input id="confirm" type="password" formControlName="confirm">
+
+    <div *ngIf="isSubmitted" class="validation">
+      <small *ngIf="form!.get('confirm')!.errors?.['required']; else confirm">
+        Please confirm your password.
+      </small>
+      <ng-template #confirm>
+        <small *ngIf="form!.errors?.['confirm']">
+          The passwords you entered did not match, please try again.
+        </small>
+      </ng-template>
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Create account</button>
+</form>
+
+

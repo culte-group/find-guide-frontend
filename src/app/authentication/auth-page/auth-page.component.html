@@ -1,0 +1,20 @@
+<form class="card" [formGroup]="form" (ngSubmit)="submit()">
+  <h2>Sign in or create an account</h2>
+
+  <div
+    [ngClass]="{invalid: isSubmitted && form!.get('email')!.invalid}"
+    class="form-control">
+    <label for="email">Email address:</label>
+    <input id="email" type="email" formControlName="email">
+
+    <div
+      *ngIf=" isSubmitted && form!.get('email')!.invalid"
+      class="validation">
+      <small *ngIf="form!.get('email')!.errors!['required']">Please enter your email address</small>
+      <small *ngIf="form!.get('email')!.errors!['email']">Please check if the email address you've entered is correct.</small>
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Continue with email</button>
+</form>
+
