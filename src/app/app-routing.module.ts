@@ -11,7 +11,11 @@ const routes: Routes = [
   },
   {
     path: 'sign-in', loadChildren: () => import('./authentication/auth.module').then(m => m.AuthModule)
+  },
+  {
+    path: 'activate/:token', loadChildren: () => import('./activation/activate.module').then(m => m.ActivateModule)
   }
+
 ];
 
 @NgModule({
