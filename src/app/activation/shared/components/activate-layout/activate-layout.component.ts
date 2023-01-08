@@ -10,7 +10,8 @@ import {EmailDTO} from "../../../../shared/interfaces";
 })
 export class ActivateLayoutComponent implements OnInit {
   email: string
-  isLoaded = false
+  isExpired: boolean = false
+  isLoaded: boolean = false
 
   constructor(
     private router: Router,
@@ -25,14 +26,18 @@ export class ActivateLayoutComponent implements OnInit {
           next: (response) => {
             if (response.status === 200) {
               this.email = (<EmailDTO> response.body).email
+              this.isExpired = false
               this.isLoaded = true
             }
           },
           error: err => {
-            console.log(err)
-            this.router.navigate(['error'], {
-              queryParams: { code: err.status }
-            })
+            if (err.status === 410) {
+              this.isExpired = true
+            } else {
+              this.router.navigate(['error'], {
+                queryParams: {code: err.status}
+              })
+            }
           }
         })
     })
