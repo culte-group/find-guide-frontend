@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {NgModule, Provider} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {AuthPageComponent} from "./auth-page/auth-page.component";
 import { AuthLayoutComponent } from './shared/components/auth-layout/auth-layout.component';
@@ -8,6 +8,8 @@ import { RegisterPageComponent } from './register-page/register-page.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SharedModule} from "../shared/components/shared.module";
 import {AuthService} from "./shared/services/auth.service";
+import {AuthInterceptor} from "./shared/services/auth.interceptor";
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
 
 const routes: Routes = [
   {
@@ -19,6 +21,12 @@ const routes: Routes = [
     ]
   }
 ]
+
+const INTERCEPTOR_PROVIDER: Provider = {
+  provide: HTTP_INTERCEPTORS,
+  useClass: AuthInterceptor,
+  multi: true
+}
 
 @NgModule({
   declarations: [
@@ -34,7 +42,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     RouterModule.forChild(routes)
   ],
-  providers: [AuthService],
+  providers: [AuthService, INTERCEPTOR_PROVIDER],
   exports: [RouterModule],
 })
 export class AuthModule { }
