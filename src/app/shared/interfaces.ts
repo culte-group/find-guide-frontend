@@ -17,3 +17,12 @@ export interface AuthResponse {
   accessToken: string,
   refreshToken: string,
 }
+
+export interface TokenDTO {
+  accessToken: string | null,
+  refreshToken: string | null
+}
+
+export interface UpdatedToken {
+  accessToken: string
+}

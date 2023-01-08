@@ -37,8 +37,13 @@ export class RegisterPageComponent implements OnInit {
     this.authService.registerUser(user).subscribe({
       next: (response) => {
         if (response.status === 201) {
-          // TODO TOKENS IN BODY!
           const body: AuthResponse = <AuthResponse>response.body
+          localStorage.setItem('access-token', body.accessToken)
+          localStorage.setItem('refresh-token', body.refreshToken)
+
+          this.authService.update()
+          this.authService.refresh()
+
           this.router.navigate(['/'])
         }
       },
